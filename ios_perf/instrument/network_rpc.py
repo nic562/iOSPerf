@@ -20,11 +20,11 @@ class NetworkingRpc(BaseRpc, metaclass=abc.ABCMeta):
     def call_network_statistics(self, *args):
         return self.get_call_result(self.CHANNEL_NETWORK_STATISTICS, *args)
 
-    def start_network_statistics(self, pid: str):
-        return self.call_network_statistics("startSamplingForPIDs:", {pid})
+    def start_network_statistics(self, pid: int):
+        return self.call_network_statistics("startSamplingForPIDs:", {str(pid)})
 
-    def get_network_statistics(self, pid: str, attrs: dict = None):
-        return self.call_network_statistics("sampleAttributes:forPIDs:", attrs or {}, {pid})
+    def get_network_statistics(self, pid: int, attrs: dict = None):
+        return self.call_network_statistics("sampleAttributes:forPIDs:", attrs or {}, {str(pid)})
 
     def start_networking_sampling(self, callback: callable):
         self.register_channel_callback(self.CHANNEL_NETWORKING, callback)

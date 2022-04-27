@@ -36,12 +36,12 @@ class DeviceInfoRpc(BaseRpc, metaclass=abc.ABCMeta):
     def get_processes(self):
         return self.call_device_info("runningProcesses")
 
-    def get_process_execute_name(self, pid: str):
+    def get_process_execute_name(self, pid: int):
         # 获取应用路径
-        return self.call_device_info('execnameForPid:', pid)
+        return self.call_device_info('execnameForPid:', str(pid))
 
-    def is_process_running(self, pid: str):
-        return self.call_device_info("isRunningPid:", pid)
+    def is_process_running(self, pid: int):
+        return self.call_device_info("isRunningPid:", str(pid))
 
     def get_uid_name(self, uid: str):
         return self.call_device_info("nameForUID:", uid)
@@ -67,13 +67,13 @@ class DeviceInfoRpc(BaseRpc, metaclass=abc.ABCMeta):
         # 硬件信息
         return self.call_device_info("hardwareInformation")
 
-    def get_mon_process_attributes(self):
+    def get_mon_process_attributes(self) -> list:
         # 获取应用性能数据所需的参数
-        return self.call_device_info("sysmonProcessAttributes")
+        return list(self.call_device_info("sysmonProcessAttributes"))
 
-    def get_mon_system_attributes(self):
+    def get_mon_system_attributes(self) -> list:
         # 获取系统性能数据所需的参数
-        return self.call_device_info("sysmonSystemAttributes")
+        return list(self.call_device_info("sysmonSystemAttributes"))
 
     def get_symbolicator_signatures(self):
         return self.call_device_info("symbolicatorSignaturesForExpiredPids")

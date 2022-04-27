@@ -37,5 +37,5 @@ class ProcessControlRpc(BaseRpc, metaclass=abc.ABCMeta):
             "launchSuspendedProcessWithDevicePath:bundleIdentifier:environment:arguments:options:",
             app_path, bundle_id, env, args, options)
 
-    def kill_app(self, pid: str):
-        return self.call_process_ctl("killPid:", pid)
+    def kill_app(self, pid: int):
+        return self.call_process_ctl("killPid:", str(pid))

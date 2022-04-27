@@ -38,13 +38,13 @@ class InstrumentServer(DTXServer,
         self.stop()
 
     @property
-    def sys_mon_process_attrs(self):
+    def sys_mon_process_attrs(self) -> list:
         if not self._sys_mon_process_attrs:
             self._sys_mon_process_attrs = self.get_mon_process_attributes()
         return self._sys_mon_process_attrs
 
     @property
-    def sys_mon_system_attrs(self):
+    def sys_mon_system_attrs(self) -> list:
         if not self._sys_mon_system_attrs:
             self._sys_mon_system_attrs = self.get_mon_system_attributes()
         return self._sys_mon_system_attrs

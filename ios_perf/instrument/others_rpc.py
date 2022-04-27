@@ -39,11 +39,11 @@ class OthersRpc(BaseRpc, metaclass=abc.ABCMeta):
     def stop_power_stream_transfer(self, stream_num: float):
         self.call_power('endStreamTransfer:', stream_num)
 
-    def start_energy_sampling(self, pid: str):
-        return self.call_energy("startSamplingForPIDs:", {pid})
+    def start_energy_sampling(self, pid: int):
+        return self.call_energy("startSamplingForPIDs:", {str(pid)})
 
-    def get_energy_sampling(self, pid: str):
-        return self.call_energy("sampleAttributes:forPIDs:", {}, {pid})
+    def get_energy_sampling(self, pid: int):
+        return self.call_energy("sampleAttributes:forPIDs:", {}, {str(pid)})
 
     def get_condition_inducer(self):
         """ 获取网络配置参数"""
