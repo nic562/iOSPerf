@@ -1,9 +1,10 @@
 import abc
+import time
 
 from ..util.log import default as log
 from ..util.gpu_decode import JSEvn, TraceData
 from ..component.base_rpc import BaseRpc
-from ..component.dtx_msg import RawInt64sl, RawInt32sl
+from ..component.dtx_msg import RawInt64sl, RawInt32sl, DTXMessage
 
 
 class OpenGLRpc(BaseRpc, metaclass=abc.ABCMeta):
@@ -54,8 +55,19 @@ class OpenGLRpc(BaseRpc, metaclass=abc.ABCMeta):
         return data
 
     def start_gpu_fps(self, callback: callable):
-        self.register_channel_callback(self.CHANNEL_OPENGL, callback)
+        handler = FPSHandler(callback)
+        self.register_channel_callback(self.CHANNEL_OPENGL, handler.data_handler)
         self.call_opengl("startSamplingAtTimeInterval:", 0.0)
 
     def stop_gpu_fps(self):
         self.call_opengl("stopSampling")
+
+
+class FPSHandler:
+
+    def __init__(self, callback: callable):
+        self.callback = callback
+
+    def data_handler(self, result: DTXMessage):
+        data = result.selector
+        self.callback({'time': int(time.time() * 1000), 'fps': data['CoreAnimationFramesPerSecond']})

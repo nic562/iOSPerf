@@ -46,13 +46,13 @@ class OthersRpc(BaseRpc, metaclass=abc.ABCMeta):
         return self.call_energy("sampleAttributes:forPIDs:", {}, {str(pid)})
 
     def get_condition_inducer(self):
-        """ 获取网络配置参数"""
+        """获取网络配置参数"""
         return self.call_condition("availableConditionInducers")
 
     def set_condition_inducer(self,
                               condition_identifier,
                               profile_identifier):
-        """ 设置手机状态，模拟网络，手机压力数据等
+        """设置手机状态，模拟网络，手机压力数据等
         :param condition_identifier:
         :param profile_identifier:
         :return:
