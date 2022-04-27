@@ -17,12 +17,21 @@ def _test(dv: IosDevice, bundle_id: str):
     time.sleep(1)
     print('execute path:', dv.get_process_execute_name(pid))
     print('start network statistics:::', dv.start_network_statistics(pid))
-    print('network statistics:', dv.get_network_statistics(pid))
     dv.start_sys_mon_tap_simple(callback=lambda x: print('tap::', x), pid_list=[pid])
     dv.start_gpu_fps(callback=lambda x: print('fps:::', x))
 
     print('waiting...')
-    time.sleep(6)
+    for _ in range(6):
+        net_stat = dv.get_network_statistics(pid).get(str(pid))
+        if net_stat:
+            print('network statistics:', {'time': net_stat['time'], 'pid': net_stat['pid'],
+                                          'up': net_stat['net.tx.bytes.delta'] / 1024.0,
+                                          'down': net_stat['net.rx.bytes.delta'] / 1024.0,
+                                          })
+        else:
+            print('network get failed!!!')
+        time.sleep(1)
+    dv.stop_network_statistics(pid)
     dv.stop_sys_mon_tap()
     dv.kill_app(pid)
     print('kill app::::', pid)

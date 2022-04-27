@@ -70,4 +70,4 @@ class FPSHandler:
 
     def data_handler(self, result: DTXMessage):
         data = result.selector
-        self.callback({'time': int(time.time() * 1000), 'fps': data['CoreAnimationFramesPerSecond']})
+        self.callback({'time': time.time(), 'fps': data['CoreAnimationFramesPerSecond']})

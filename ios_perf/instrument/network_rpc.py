@@ -23,6 +23,9 @@ class NetworkingRpc(BaseRpc, metaclass=abc.ABCMeta):
     def start_network_statistics(self, pid: int):
         return self.call_network_statistics("startSamplingForPIDs:", {str(pid)})
 
+    def stop_network_statistics(self, pid: int):
+        return self.call_network_statistics("stopSamplingForPIDs:", {str(pid)})
+
     def get_network_statistics(self, pid: int, attrs: dict = None):
         return self.call_network_statistics("sampleAttributes:forPIDs:", attrs or {}, {str(pid)})
 
